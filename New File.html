@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>주사위 게임(basic)</title>
+    <style>
+        #title{
+            width: 500px; /*가로길이*/
+            height: 50px;
+            background-color: green;
+            line-height: 50px;
+            text-align: center;
+            cursor: pointer;
+            /* 중앙정렬 
+            0 = 좌우 위 아래 여백을 주지 않겠다는 의미
+            auto = 가로 중앙에 배치한다는 뜻*/
+            margin: 0 auto;
+        }
+        #content{
+            width: 500px;
+            height: 400px;
+            background-color: gray;
+            margin: 0 auto;
+        }
+        #com{
+            /* 이미지와 텍스트 배치 상관관계 - float 이용
+            left = 페이지 내용은 박스 오른쪽에 이미지는 왼쪽에*/
+            float: left;
+        }
+        #guest{
+            /* right = 페이지 내용은 박스 왼쪽에, 이미지는 오른쪽에 */
+            float: right;
+        }
+    </style>
+</head>
+<body>
+    
+    <div id="title">게임시작</div>
+    <div id="content">
+        <img id="com" src="./images/diceGIF.gif" alt="컴퓨터">
+        <img id="guest" src="./images/diceGIF.gif" alt="사용자">
+    </div>
+
+    <script>
+        // id title을 선택자로 선택해 클릭시에 함수를 실행
+        document.querySelector('#title').onclick=function(){
+            /*여기서 this는 title div를 말하며, firstChild는 div의 첫번째 자식을 가리킨다.*/
+            // nodeValue = node의 값을 읽는것 
+            // 만약 첫번째 자식의 노드 값이 '게임시작이라면'
+            if(this.firstChild.nodeValue=='게임시작'){ 
+                // 첫번째 자식 노드값이 '결과확인으로 바뀌고'
+                this.firstChild.nodeValue='결과확인';
+                // 배경색은 lightblue로 바뀌게끔
+                this.style.backgroundColor='lightblue';
+                startGame(); /*startgame이라는 함수를 만들어서 호출해보자*/
+            } else{
+                // 아니라면 게임시작 그대로 유지 
+                // 배경색은 lightpink로 바뀌게끔
+                this.firstChild.nodeValue='게임시작';
+                this.style.backgroundColor='ligthpink';
+                endGame(); /* endGame이라는 함수를 만들어 역시 호출*/
+            }
+        }
+        // startGame 함수 실행시 
+        function startGame(){
+            // 각각 선택된 id 위치에 gif 파일을 띄운다.
+            document.querySelector('#com').src='images/diceGIF.gif'; 
+            document.querySelector('#guest').src='images/diceGIF.gif';
+        }
+        // endGame 함수 실행시 
+        function endGame(){
+            // 각 변수명은 1 ~ 6 까지 랜덤함수 사용 
+            var com=Math.floor(Math.random()*6)+1;
+            var guest=Math.floor(Math.random()*6)+1;
+            // 이때 랜덤으로 나온 숫자와 사진속 주사위 눈금이 일치해야 하기 때문에 
+            // 중간에 변수명을 사용해 맞춰줌
+            document.querySelector('#com').src='images/dice'+com+'.png';
+            document.querySelector('#guest').src='images/dice'+guest+'.png';
+            
+            setTimeout(function(){
+                if(com<guest){
+                    alert('WIN!');
+                } else if(com==guest){
+                    alert('DRAW')
+                } else{
+                    alert('LOSE');
+                }
+            },1000) /*setTimeout은 1회성*/
+            
+        }
+    </script>
+
+</body> 
+</html>
